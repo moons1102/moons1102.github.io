@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test</title>
+    <style>
+        *,
+        ::before,
+        ::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        tr td {
+            width: 94px;
+            height: 94px;
+            border: 0.1px grey solid;
+        }
+
+        table {
+            margin: 100px auto;
+        }
+
+        .form {
+            width: 500px;
+            position: fixed;
+            left: 40%;
+            top: 50px;
+        }
+
+        .form input {
+            padding: 10px;
+            margin: 0 10px;
+        }
+
+        .mess {
+            position: fixed;
+            left: 25%;
+            font-size: 100px;
+        }
+
+        #messGoal {
+            color: limegreen;
+            display: none;
+
+        }
+
+        #messMiss {
+            color: red;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <p id="messGoal" class="mess"> Bạn đã bắn trúng tàu </p>
+    <p id="messMiss" class="mess"> Bạn đã bắn hụt cmnr </p>
+
+    <div class="board">
+        <table>
+            <tr>
+                <td id="1"></td>
+                <td id="2"></td>
+                <td id="3"></td>
+                <td id="4"></td>
+                <td id="5"></td>
+                <td id="6"></td>
+                <td id="7"></td>
+            </tr>
+            <tr>
+                <td id="8"></td>
+                <td id="9"></td>
+                <td id="10"></td>
+                <td id="11"></td>
+                <td id="12"></td>
+                <td id="13"></td>
+                <td id="14"></td>
+            </tr>
+            <tr>
+                <td id="15"></td>
+                <td id="16"></td>
+                <td id="17"></td>
+                <td id="18"></td>
+                <td id="19"></td>
+                <td id="20"></td>
+                <td id="21"></td>
+            </tr>
+            <tr>
+                <td id="22"></td>
+                <td id="23"></td>
+                <td id="24"></td>
+                <td id="25"></td>
+                <td id="26"></td>
+                <td id="27"></td>
+                <td id="28"></td>
+            </tr>
+            <tr>
+                <td id="29"></td>
+                <td id="30"></td>
+                <td id="31"></td>
+                <td id="32"></td>
+                <td id="33"></td>
+                <td id="34"></td>
+                <td id="35"></td>
+            </tr>
+        </table>
+    </div>
+    <div class="form">
+
+        <input type="text" id="inLoca">
+        <input type="button" value="Bắn cmn" id="Fire" onclick="fireSml()">
+    </div>
+    <script>
+
+        var ship = {
+            loca: ["10", "20", "30", "31", "21"]
+        }
+        var click = 0;
+        var diem = 0;
+        function fireSml() {
+            var getId = document.getElementById('inLoca');
+            var getVal = getId.value;
+            click++;
+            if(getVal < 0 || getVal >35){
+                alert('D m chơi t à, chơi lại nha tml');
+                location.reload();
+            }
+                if (checkGoal() == true) {
+                    let Goals = "messGoal";
+                    displayMessage(getVal, Goals);
+                    diem++;
+                }
+                else {
+                    let Goals = "messMiss";
+                    displayMessage(getVal, Goals);
+                }
+                if (click == 6) {
+                    click = 0;
+                    alert('Bạn đã hết lượt');
+                    alert('Bạn được ' + diem + " Điểm");
+                    diem = 0;
+                    location.reload();
+                }
+        }
+        // check goal
+        function checkGoal() {
+            var getVal = document.getElementById('inLoca').value;
+            var checkResult = false;
+            for (var i = 0; i < ship.loca.length; i++) {
+                if (getVal === ship.loca[i]) {
+                    checkResult = true;
+                    return checkResult;
+                }
+            }
+        }
+        //Hiện thông báo
+        function displayMessage(id, n) {
+            var getIdMess = document.getElementById(n);
+            var getId = document.getElementById(id);
+
+            if (n == "messGoal") {
+                getIdMess.setAttribute("style", "display: block");
+                showShip(id);
+            }
+            else if (n == "messMiss") {
+                getIdMess.setAttribute("style", "display: block");
+                showMiss(id);
+            }
+            else {
+                console.log("Giá trị nhập vào sai cmnr");
+            }
+            if (getIdMess.style.display = 'block') {
+                setTimeout(function closeMess() {
+                    getIdMess.style.display = 'none'
+                }, 1500);
+            }
+        }
+        // hiện ảnh miss
+        function showMiss(n) {
+            var getLoca = document.getElementById(n);
+            getLoca.setAttribute("style", "background: url('miss.png') no-repeat center");
+        }
+        // hiện tàu khi đánh trúng
+        function showShip(n) {
+            var getLoca = document.getElementById(n);
+            getLoca.setAttribute("style", "background: url('ship.png') no-repeat center");
+        }
+    </script>
+</body>
+
+</html>
