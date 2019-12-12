@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>TEST</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        #play-area {
+            width: 960px;
+            height: 540px;
+            margin: 0 auto;
+            border: 0.1px black solid;
+            position: relative;
+        }
+
+        .input-area {
+            width: 300px;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="play-area">
+    </div>
+    <div class="input-area">
+        <input type="text" value="" id="nhap">
+        <input type="button" value="Nhập số bóng cần tạo" onclick="choi()">
+    </div>
+    <script>
+        function getValNhap() {
+            var getVal = document.getElementById("nhap").value;
+            return getVal;
+        }
+        var ballObj = {};
+        var txt = "px";
+        function setStyle(nodeTam, i) {
+            nodeTam.style.left = Math.floor(Math.random() * 100) * Math.floor(Math.random() * 10) + txt;
+            nodeTam.style.bottom = Math.floor(Math.random() * 100) * Math.floor(Math.random() * 10) + txt;
+            nodeTam.style.width = "50px";
+            nodeTam.style.height = "50px";
+            nodeTam.style.borderRadius = "50%";
+            nodeTam.style.position = "relative";
+            nodeTam.style.backgroundColor = "lightcoral";
+            nodeTam.setAttribute("onmousemove", "setMove(event)")
+        }
+
+        function choi() {
+            n = getValNhap();
+            for (var i = 0; i < n; i++) {
+                var term = document.getElementById("play-area");
+                var nodeTam = document.createElement("div");
+                nodeTam.className = "ball" + i;
+                setStyle(nodeTam, i);
+                term.appendChild(nodeTam);
+                ballObj[i] = {
+                    name: "ball" + i,
+                    posLeft: nodeTam.style.left
+                }
+            }
+        }
+        function setMove(event) {
+            var cTam = event.target.className;
+            var txt = "px";
+            var getId = document.getElementsByClassName(cTam);
+            getId[0].style.left = Math.floor(Math.random() * 100) * Math.floor(Math.random() * 10) + txt;
+        }
+    </script>
+
+</body>
+
+</html>
